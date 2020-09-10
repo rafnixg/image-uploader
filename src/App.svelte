@@ -1,5 +1,5 @@
 <script>
-  import { getFile, isImage } from "./utils.js";
+  import { getFileFromDrop, getFileFromInput, isImage } from "./utils.js";
 
   let over = false;
   let overClass;
@@ -13,12 +13,13 @@
   const handleDragLeave = (e) => endOver();
   const handleDragOver = (e) => startOver();
   const handleDragDrop = (e) => {
-    const file = getFile(e);
+    const file = getFileFromDrop(e);
     endOver();
     if (!isImage(file)) return;
 
     console.log(file);
   };
+  const handleInput = (e) => console.log(getFileFromInput(e));
 
   const handleFile = (file) => {};
 </script>
@@ -48,16 +49,11 @@
     background: #f6f8fb;
     border: 2px dashed #97bef4;
     border-radius: 12px;
+    padding: 40px 0;
   }
   .drop-zone.over {
     border-color: peru;
   }
-  .drop-zone__form {
-    padding: 40px 0;
-  }
-  /* .drop-zone__file {
-    display: none;
-  } */
   .drop-zone__text {
     margin-top: 40px;
     color: #bdbdbd;
@@ -84,12 +80,17 @@
     on:dragover|preventDefault|stopPropagation={handleDragOver}
     on:dragenter|preventDefault|stopPropagation={handleDragEnter}
     on:drop|preventDefault|stopPropagation={handleDragDrop}>
-    <form action="" method="POST" class="drop-zone__form">
-      <input class="drop-zone__file" hidden type="file" />
-      <img src="./image.svg" alt="" class="drop-zone__img" />
-      <p class="drop-zone__text">Drag & Drop your image here</p>
-    </form>
+    <img src="./image.svg" alt="" class="drop-zone__img" />
+    <p class="drop-zone__text">Drag & Drop your image here</p>
   </div>
   <p>Or</p>
-  <button class="btn">Choose a file</button>
+  <form>
+    <input
+      id="file-input"
+      hidden
+      type="file"
+      on:input={handleInput}
+      accept="image/*" />
+    <label for="file-input" class="btn">Choose a file</label>
+  </form>
 </div>
