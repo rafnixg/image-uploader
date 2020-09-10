@@ -1,4 +1,5 @@
 <script>
+  import { getFileFromInput, uploadFile } from "../utils";
   const handleInput = (e) => {
     const file = getFileFromInput(e);
     uploadFile(file);
