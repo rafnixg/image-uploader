@@ -1,5 +1,10 @@
 <script>
-    import {getFileFromDrop, isImage, uploadFile} from "../utils"
+  import { getFileFromDrop, isImage } from "../utils";
+  import { uploadFile } from "../services";
+  import { createEventDispatcher } from "svelte";
+
+  const dispatch = createEventDispatcher();
+
   let over = false;
   let overClass;
 
@@ -11,12 +16,14 @@
   const handleDragEnter = (e) => startOver();
   const handleDragLeave = (e) => endOver();
   const handleDragOver = (e) => startOver();
-  const handleDragDrop = (e) => {
+  const handleDragDrop = async (e) => {
     const file = getFileFromDrop(e);
     endOver();
     if (!isImage(file)) return;
 
-    uploadFile(file);
+    dispatch("upload", "uploading");
+    await uploadFile(file);
+    dispatch("upload", "upload");
   };
 </script>
 

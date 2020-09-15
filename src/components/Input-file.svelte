@@ -1,8 +1,17 @@
 <script>
-  import { getFileFromInput, uploadFile } from "../utils";
-  const handleInput = (e) => {
+  import { getFileFromInput } from "../utils";
+  import { uploadFile } from "../services";
+
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
+
+
+  const handleInput = async (e) => {
     const file = getFileFromInput(e);
-    uploadFile(file);
+    dispatch('upload', 'uploading')
+    await uploadFile(file);
+    dispatch('upload', 'upload')
   };
 </script>
 
