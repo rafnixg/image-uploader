@@ -105,3 +105,9 @@ dist
 
 # Svelte
 public/build/
+
+.DS_Store
+node_modules
+public/bundle.*
+package-lock.json
+yarn.lock
